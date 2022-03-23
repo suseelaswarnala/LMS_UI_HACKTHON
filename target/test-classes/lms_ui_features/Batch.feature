@@ -1,4 +1,4 @@
-@tag
+@Batch
 Feature: Different Batches function Performed by Admin
   
 

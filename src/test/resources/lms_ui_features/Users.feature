@@ -1,4 +1,4 @@
-@tag
+@Users
 Feature: LMS Admin  User page
 
   @tag1

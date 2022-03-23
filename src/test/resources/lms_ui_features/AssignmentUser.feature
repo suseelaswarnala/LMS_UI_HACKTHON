@@ -1,10 +1,11 @@
+@AssignmentUser
 Feature: Assignment functions performed by User
 
   Background: Admin is logged in,Batches and Classes were created already
 
   @PositiveScenario
   Scenario: Check whether user can submit assignment
-    Given User is on Manage Submissions(user) page
+    Given User is on Manage Submissions user page
     When User clicks on submit button after selecting Batch,Assignment Name,Assignment Date ,add comments
     Then Assignment will be submitted succesfully
 

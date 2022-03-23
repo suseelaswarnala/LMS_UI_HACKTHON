@@ -1,5 +1,6 @@
 package stepdef;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -8,11 +9,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class ResourceandRecord extends Login{
+public class ResourceandRecord {
+	WebDriver driver;
 	public ResourceandRecord() throws Exception {
-		super();
-		
-	}
+		Login login=new Login();
+		login.driver=driver;
+		}
 
 	@Given("Admin is on Manage Recording\\(Admin) page by clicking Manage Recordings tab")
 	public void admin_is_on_manage_recording_admin_page_by_clicking_manage_recordings_tab() {
@@ -53,7 +55,7 @@ public class ResourceandRecord extends Login{
 		batchNo.selectByVisibleText("SDET 02");
 		//declare instance of select class 
 		Select topic = new Select(driver.findElement(By.name("Topic")));
-		batchNo.selectByVisibleText("Selenium");
+		topic.selectByVisibleText("Selenium");
 		//declare instance of select class 
 		Select res = new Select(driver.findElement(By.name("Resources")));
 		driver.findElement(By.linkText("Upload")).click();

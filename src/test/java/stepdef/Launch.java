@@ -28,13 +28,13 @@ public class Launch {
 	}
 	
 	
-	@Given("Admin\\/User is on LMS portal with Login button Link")
+	@Given("Admin or User is on LMS portal with Login button Link")
 	public void admin_user_is_on_lms_portal_with_login_button_link() {
 		
 		driver.get("https://www.LMS-UI.com/home");
 	}
 
-	@When("Admin\\/User clicks on Login button link")
+	@When("Admin or User clicks on Login button link")
 	public void admin_user_clicks_on_login_button_link() {
 		
 		//admin clicks on loginbutton
@@ -42,7 +42,7 @@ public class Launch {
 			   
 	}
 
-	@Then("Admin\\/user navigates to Log-In Screen page")
+	@Then("Admin or user navigates to Log-In Screen page")
 	public void admin_user_navigates_to_log_in_screen_page() {
 		
 		//landinding login page

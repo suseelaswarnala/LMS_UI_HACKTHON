@@ -9,20 +9,25 @@ import java.util.List;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import LMS_UI_Utils.lms_excelreader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Programfunctions extends Login {
+
+public class Programs {
+	WebDriver driver;
+	 lms_excelreader excelreader;
 	
-	public Programfunctions() throws Exception {
-		super();
-		
-		
-	}
+	 
+		public Programs() throws Exception {
+			Login login=new Login();
+			login.driver=driver;
+			}
 	
 	String programDate;
 	WebElement program=driver.findElement(By.xpath("//Select[@name='Programs']"));
@@ -58,7 +63,7 @@ public class Programfunctions extends Login {
 		boolean status ;      
 		status = activeStatus.isSelected();   
 		 
-		if(status = true)
+		if(status == true)
 		{
 			activeStatus.click(); 
 		}
@@ -96,7 +101,7 @@ public class Programfunctions extends Login {
 		boolean status ;      
 		status = activeStatus.isSelected();   
 		 
-		if(status = true)
+		if(status == true)
 		{
 			activeStatus.click(); 
 		}
@@ -164,7 +169,7 @@ public class Programfunctions extends Login {
 		//radio button selection
 		boolean status ;      
 		status = activeStatus.isSelected();   
-		if(status = true)
+		if(status == true)
 		{
 			activeStatus.click(); 
 		}
@@ -213,7 +218,7 @@ public class Programfunctions extends Login {
 		boolean status ;      
 		status = activeStatus.isSelected();   
 		 
-		if(status = true)
+		if(status == true)
 		{
 			activeStatus.click(); 
 		}

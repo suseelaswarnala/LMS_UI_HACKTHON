@@ -7,13 +7,14 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Batch extends Login {
-	public Batch() throws Exception {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public static WebDriver driver;
+public class Batch  {
+	
+	 WebDriver driver;
+	
+		public Batch() throws Exception {
+			Login login=new Login();
+			login.driver=driver;
+			}
 
 	@Given("Admin is on Manage Batches Page (admin) screen, by clicking on batches tab")
 	public void admin_is_on_manage_batches_page_admin_screen_by_clicking_on_batches_tab() {

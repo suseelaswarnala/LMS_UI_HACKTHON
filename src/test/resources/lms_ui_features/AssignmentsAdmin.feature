@@ -1,3 +1,4 @@
+@AssignmentAdmin
 Feature: Assignment functions performed by Admin
 
   Background: Admin is logged in,Batches and Classes were created already

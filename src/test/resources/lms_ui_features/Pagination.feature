@@ -1,3 +1,4 @@
+@pagination
 Feature: Pagination
 @tag1
   Scenario: Check functionality of Pagination at Manage user Admin page

@@ -1,4 +1,4 @@
-@tag
+@Login
 Feature: Login functions(Admin/User)
   @tag1
 Scenario: Check whether Admin/user could able to login with valid Credentialse

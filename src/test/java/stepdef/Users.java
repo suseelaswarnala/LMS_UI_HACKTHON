@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Users extends Login {
+public class Users  {
 	public Users() throws Exception {
 		super();
 		

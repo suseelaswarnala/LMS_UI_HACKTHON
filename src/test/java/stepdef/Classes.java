@@ -1,5 +1,6 @@
 package stepdef;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -8,13 +9,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Classes extends Login {
+public class Classes {
 
-	
+	WebDriver driver;
 	public Classes() throws Exception {
-		super();
-		
-	}
+		Login login=new Login();
+		login.driver=driver;
+		}
 
 	@Given("Admin is on Manage Classes Page\\(admin) by clicking on Manage Classes tab")
 	public void admin_is_on_manage_classes_page_admin_by_clicking_on_manage_classes_tab() {

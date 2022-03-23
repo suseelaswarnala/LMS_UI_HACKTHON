@@ -8,6 +8,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,10 +17,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class AssignmentUser extends Launch{
-	WebDriver driver;
 
-	@Given("User is on Manage Submissions(user) page")
+public class AssignmentUser{
+	
+	
+	WebDriver driver;
+	public AssignmentUser() throws Exception {
+		Login login=new Login();
+		login.driver=driver;
+		}
+	
+
+	@Given("User is on Manage Submissions user page")
 	public void user_is_on_manage_submissions_user_page() {
 		// User clicks on the Manage Submission in the Manage Assignment Page
 		driver.findElement(By.linkText("Manage Assignment")).click();

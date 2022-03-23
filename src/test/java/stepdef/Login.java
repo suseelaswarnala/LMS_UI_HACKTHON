@@ -3,17 +3,23 @@ package stepdef;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
 import LMS_UI_Utils.lms_excelreader;
 import LMS_UI_Utils.PropertiesReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Login extends Launch
+public class Login 
+
+
 {
+	
+	Launch launch=new Launch();
+	WebDriver driver=launch.driver;
+	
 	lms_excelreader excelreader;
 	Properties properties;
 	String sheetAdmin=properties.getProperty("sheetAdmin");
@@ -23,6 +29,8 @@ public class Login extends Launch
 	//finding email id element
 	WebElement email_id=driver.findElement(By.name("txtUserEmailAddress"));
 	public Login() throws Exception {
+		super();
+			
 		PropertiesReader propUtil = new PropertiesReader();
 	properties = propUtil.loadProperties();
 	

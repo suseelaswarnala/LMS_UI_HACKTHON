@@ -6,15 +6,13 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/lms_ui_features",
-					 glue = {"Launch"},
-					// tags = "@Launch",
+					 glue = {"stepdef"},
+					 //tags = "@Launch",
 					 //tags = "@check",
 monochrome=true,
 dryRun = false,
-plugin = {"pretty","html:Reports/report.html"}
+plugin = {"pretty","html:Reports/report.html","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
-
-
 
 public class launchrunner {
 	

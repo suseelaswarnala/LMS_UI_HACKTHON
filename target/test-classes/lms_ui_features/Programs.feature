@@ -1,5 +1,5 @@
 
-@tag
+@Programs
 Feature: Different Program functions Performed by Admin
  
 

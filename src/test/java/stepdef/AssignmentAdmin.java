@@ -22,13 +22,14 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class AssignmentAdmin extends Login {
-	public AssignmentAdmin() throws Exception {
-		super();
+public class AssignmentAdmin  {
 		
-	}
-
 	WebDriver driver;
+	
+	public AssignmentAdmin() throws Exception {
+		Login login=new Login();
+		login.driver=driver;
+		}
 	SoftAssert sa = new SoftAssert();
 
 	public void takeScreenshot(String fileName) throws IOException {
