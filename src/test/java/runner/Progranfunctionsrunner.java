@@ -4,9 +4,8 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/lms_ui_features",
-					 glue = {"Programfunctions" },
-					 tags = "@Programfunctions",
+@CucumberOptions(features = "src/test/resources/lms_ui_features/Programs.feature",
+					 glue = {"stepdef" },
 					 //tags = "@check",
 monochrome=true,
 dryRun = false,

@@ -1,7 +1,6 @@
 package stepdef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -29,45 +28,51 @@ public class ResourceandRecord {
 	public void admin_upload_recording_after_selecting_batch_and_topic() {
 		
 		//batch selection 
-		Select batchNo = new Select(driver.findElement(By.name("Batch")));
+		Select batchNo = new Select(driver.findElement(By.name("selBatchRecording")));
 		batchNo.selectByVisibleText("SDET 02");
 		//declare instance of select class 
-		Select topic = new Select(driver.findElement(By.name("Topic")));
-		batchNo.selectByVisibleText("Selenium");
+		Select topic = new Select(driver.findElement(By.name("selRecordingTopic")));
+		topic.selectByVisibleText("Selenium");
 		//for clicking recording 
-		Select rec = new Select(driver.findElement(By.name("Recording")));
-		driver.findElement(By.linkText("Upload")).click();
+		driver.findElement(By.id("btnUploadRecording")).click();
+		driver.findElement(By.id("btnUploadRecResource")).click();
 	    
 	}
 
 	@Then("Uploaded recording will be displayed in Manage Classes page\\(Admin View) for selected topic")
 	public void uploaded_recording_will_be_displayed_in_manage_classes_page_admin_view_for_selected_topic() {
-	   WebElement Display =driver.findElement(By.linkText("Manage Classes page\\(Admin View"));
-	   //WebElement display=Display;
-		Assert.assertEquals(Display,"Uploaded records will be displayed in manage classes page");
+		
+		
+		Select topic = new Select(driver.findElement(By.name("selRecordingTopic")));
+		topic.selectByVisibleText("Selenium");
+		driver.findElement(By.linkText("Manage Classes")).click();
+		String topicname=topic.toString();
+		  
+		Assert.assertEquals(topicname,"Selenium");
+		
 	}
 
 	@When("Admin upload resources after selecting Batch and topic")
 	public void admin_upload_resources_after_selecting_batch_and_topic() {
 		
-		//batch selection
-		Select batchNo = new Select(driver.findElement(By.name("Batch")));
+		Select batchNo = new Select(driver.findElement(By.name("selBatchRecording")));
 		batchNo.selectByVisibleText("SDET 02");
 		//declare instance of select class 
-		Select topic = new Select(driver.findElement(By.name("Topic")));
+		Select topic = new Select(driver.findElement(By.name("selRecordingTopic")));
 		topic.selectByVisibleText("Selenium");
-		//declare instance of select class 
-		Select res = new Select(driver.findElement(By.name("Resources")));
-		driver.findElement(By.linkText("Upload")).click();
+		driver.findElement(By.id("btnUploadRecResource")).click();
 
 	   
 	}
 
 	@Then("Upload resources will be displayed in  for selected topic")
 	public void upload_resources_will_be_displayed_in_manage_classes_page_admin_view_for_selected_topic() {
-		  WebElement Display =driver.findElement(By.linkText("Manage Classes page\\(Admin View"));
-		   //WebElement display=Display;
-			Assert.assertEquals(Display,"Uploaded resources will be displayed in manage classes page");
+		Select topic = new Select(driver.findElement(By.name("selRecordingTopic")));
+		topic.selectByVisibleText("Selenium");
+		driver.findElement(By.linkText("Manage Classes")).click();
+		String topicname=topic.toString();
+		  
+			Assert.assertEquals(topicname,"Selenium");
 		}
 
 	    

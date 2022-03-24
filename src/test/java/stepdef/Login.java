@@ -18,7 +18,7 @@ public class Login
 {
 	
 	Launch launch=new Launch();
-	WebDriver driver=launch.driver;
+	public WebDriver driver=launch.driver;
 	
 	lms_excelreader excelreader;
 	Properties properties;
@@ -59,7 +59,8 @@ public class Login
 	public void admin_user_navigates_to_lms_home_page() {
 		String home=properties.getProperty("home");
 		driver.get(home);
-	    
+	    driver.close();
+	    driver.quit();
 	}
 
 	@When("Admin\\/User enters Invalid Login Name and Password")

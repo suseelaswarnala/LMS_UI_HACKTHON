@@ -4,13 +4,14 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/lms_ui_features/Classes.feature",
+@CucumberOptions(features = "src/test/resources/lms_ui_features/Attendence.feature",
 					 glue = {"stepdef" },
+					 //tags = "@AssignmentUser",
 					 //tags = "@check",
 monochrome=true,
 dryRun = false,
 plugin = {"pretty","com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
-public class Classes {
+public class Attendance {
 
 }

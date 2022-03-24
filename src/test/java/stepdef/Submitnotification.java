@@ -1,20 +1,12 @@
 package stepdef;
-
-
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
-
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import junit.framework.Assert;
 
 public class Submitnotification {
 	WebDriver driver;
@@ -35,33 +27,30 @@ public class Submitnotification {
 	    
 		//admin selects Program Name from dropdown
 		
-		Select prog = new Select(driver.findElement(By.xpath("//select[@name=’Program Name’]")));
+		Select prog = new Select(driver.findElement(By.xpath("//select[@name=’selNotificationPgmName’]")));
 	      //getting the list of options in the dropdown with getOptions()
-	      List <WebElement> op = prog.getOptions();
-	      int size = op.size();
+	      List <WebElement> programs = prog.getOptions();
+	      int size = programs.size();
 	      for(int i =0; i<size ; i++){
-	         String options = op.get(i).getText();
+	         String options = programs.get(i).getText();
 	         System.out.println(options);
 	      }
 	      
 	      //admin enters Hackathon Name
-	      WebElement h = driver.findElement(By.name("q"));
-	      String st = h.getAttribute("Hackathon Name");
-	      
+	      driver.findElement(By.name("txtHackthonName")).sendKeys("Hackthon");
+	          
 	    //admin enters Hackathon Description
-	      WebElement desc = driver.findElement(By.name("d"));
-	      String st1 = desc.getAttribute("Hackathon Description");
-	      
+	       driver.findElement(By.name("txtHackthonDesc")).sendKeys("Nov Hackthon");
+	         
 	      //admin selects date from date picker
-	      WebElement datepick = driver.findElement(By.xpath("//form//input[@name='hackathonDate']"));
-	      datepick.sendKeys("03242022");
+	       driver.findElement(By.name("txtHackathonDate")).sendKeys("3/24/2022");
+	      
 	      
 	    //admin enters Hackathon Comments
-	      WebElement hComment = driver.findElement(By.name("comment"));
-	      String st2 = hComment.getAttribute("Hackathon Description");
-	      
+	       driver.findElement(By.name("txtHackthonComments")).sendKeys("Comments");
+	           
 	      //admin hits the submit button
-	      driver.findElement(By.id("submit1")).submit();
+	      driver.findElement(By.id("bthSaveNotification")).click();
 		
 		
 	}
@@ -70,12 +59,8 @@ public class Submitnotification {
 	public void notifications_will_be_submitted_successfully() {
 	    
 		//notification will be submitted successfully
-System.out.println("Notifications will be submitted successfully");	
-		
-		WebElement NotificationMessage = driver.findElement(By.cssSelector("//h4[contains(text(),'Notifications will be submitted successfully'"));
-		String successfulMessage = NotificationMessage.getText();
-		Assert.assertEquals(successfulMessage, "Notifications will be submitted successfully");
-		}
+		driver.findElement(By.linkText("Notifications")).click();
+	}
 	}
 
 
