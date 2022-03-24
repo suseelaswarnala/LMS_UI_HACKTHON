@@ -5,7 +5,7 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/lms_ui_features",
+@CucumberOptions(features = "src/test/resources/lms_ui_features/Launch.feature",
 					 glue = {"stepdef"},
 					 //tags = "@Launch",
 					 //tags = "@check",

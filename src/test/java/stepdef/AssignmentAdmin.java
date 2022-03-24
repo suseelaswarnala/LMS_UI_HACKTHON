@@ -1,49 +1,35 @@
 package stepdef;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
 
+import actions.Actions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class AssignmentAdmin  {
-		
+public class AssignmentAdmin {
+
 	WebDriver driver;
-	
 	public AssignmentAdmin() throws Exception {
 		Login login=new Login();
 		login.driver=driver;
 		}
-	SoftAssert sa = new SoftAssert();
+	Actions actions = new Actions();
+	WebElement Assignment = driver.findElement(By.linkText("Manage Assignment"));
 
-	public void takeScreenshot(String fileName) throws IOException {
-		// 1.take screenshot and store it as a file format:
-		File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		// now copy the screenshot to desired location using copyFile method:
-		FileUtils.copyFile(file, new File("C:\\Learnings\\Java\\NumpyNinja.LMSUI\\Screenshots" + fileName + ".jpg"));
-	}
-
-	@Given("Admin is on Manage Assignments Page (admin) by clicking on Manage Assignments tab")
+	@Given("Admin is on Manage Assignments Page admin by clicking on Manage Assignments tab")
 	public void admin_is_on_manage_assignments_page_admin_by_clicking_on_manage_assignments_tab() {
 
 		// Manage Assignment is being clicked
-		driver.findElement(By.linkText("Manage Assignment")).click();
+		Assignment.click();
 
 	}
 
@@ -60,20 +46,22 @@ public class AssignmentAdmin  {
 		driver.findElement(By.id("Submit")).click();
 	}
 
-	@Then("Newly Added assignment Details will be displayed in Manage Assignments Page (Admin)")
+	@Then("Newly Added assignment Details will be displayed in Manage Assignments Page Admin")
 	public void newly_added_assignment_details_will_be_displayed_in_manage_assignments_page_admin() {
 
 		// Newly added Assignment Name should be displayed
-		boolean isElementDisplayed = driver.findElement(By.xpath("//*[text()='Selenium_1']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed, "Selenium_1");
+		WebElement aName = driver.findElement(By.xpath("//*[text()='AssignmentName']"));
+		String name = aName.getAttribute("value");
+		Assert.assertEquals(name, "Selenium_1");
 
 		// Newly Entered Assignment Details should be displayed
-		boolean isElementDisplayed1 = driver.findElement(By.xpath("//*[text()='Locators']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed1, "Locators");
+		WebElement aDetails = driver.findElement(By.xpath("//*[text()='Adetails']"));
+		String details = aDetails.getAttribute("value");
+		Assert.assertEquals(details, "Locators");
 
 		// Newly Entered Assignment DueDate should be displayed
-		boolean isElementDisplayed2 = driver.findElement(By.xpath("//*[text()='3-24-2022']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed2, "3-24-2022");
+		WebElement aDueDate = driver.findElement(By.xpath("//*[text()='3-24-2022']"));
+		Assert.assertEquals(aDueDate, "3-24-2022");
 	}
 
 	@When("Admin Edit an assignment on Manage Assignment Page")
@@ -97,80 +85,42 @@ public class AssignmentAdmin  {
 		new WebDriverWait(driver, Duration.ofSeconds(5)).until(
 				ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h4[contains(text(),'Calender'")));
 
-		selectDate("30", "March", "2022");
+		actions.selectDate("30", "March", "2022");
 	}
 
-	// If february month selected and date is greater than 29 and if in any month,
-	// date is greater than 31 then it will return nothing and prints wrong date
-	// with given month and year
-	public void selectDate(String exDay, String exMonth, String exYear) {
-		if (exMonth.equals("February") && Integer.parseInt(exDay) > 29) {
-			System.out.println("Wrong date:" + exMonth + ":" + exDay);
-			return;
-		}
-		if (Integer.parseInt(exDay) > 31) {
-			System.out.println("wrong date:" + exMonth + ":" + exDay);
-			return;
-		}
-		String monthYearVal = driver.findElement(By.className("ui-datepicker-title")).getText();
-		// System.out.println(monthYearVal);
-
-		// month year
-		String[] monthYear = monthYearVal.split(" ");
-		// when month and year does not match,keep looping
-		while (!(monthYear[0].equals(exMonth) && monthYear[1].equals(exYear)))
-			driver.findElement(By.xpath("//a[@title='Next'")).click();
-
-		monthYearVal = driver.findElement(By.className("ui=datepicker-title")).getText();
-		try {
-			driver.findElement(By.xpath("//a[text()='" + exDay + "']")).click();
-		} catch (Exception e) {
-			System.out.println("wrong date:" + exMonth + ":" + exDay);
-		}
-	}
-
-	@Then("Updated assignment details will be displayed in Manage Assignments Page\\(Admin)")
+	@Then("Updated assignment details will be displayed in Manage Assignments Page Admin")
 	public void updated_assignment_details_will_be_displayed_in_manage_assignments_page_admin() throws IOException {
 
 		// Edited Assignment Name should be displayed
 		boolean isElementDisplayed = driver.findElement(By.xpath("//*[text()='Restful']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed, "Restful");
+		Assert.assertEquals(isElementDisplayed, "Restful");
 
 		// Edited Assignment Details should be displayed
 		boolean isElementDisplayed1 = driver.findElement(By.xpath("//*[text()='Services']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed1, "Services");
+		Assert.assertEquals(isElementDisplayed1, "Services");
 
 		// Edited Assignment DueDate should be displayed
 		boolean isElementDisplayed2 = driver.findElement(By.xpath("//*[text()='3-30-2022']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed2, "3-30-2022");
+		Assert.assertEquals(isElementDisplayed2, "3-30-2022");
 
-		takeScreenshot("UpdatedAssignment_Submitted");
-	}
-
-	// Admin checks total no.of rows
-	// It will store the total no.of.rows (Elements) in the List
-	public int count() {
-		List<WebElement> AssignmentList = driver.findElements(By.className("AssignmentList"));
-		int Totalcount = AssignmentList.size();
-		return Totalcount;
+		actions.takeScreenshot("UpdatedAssignment_Submitted");
 	}
 
 	// Admin clicks on delete an existing assignment
 	@When("Admin Delete an existing assignment")
 	public void admin_delete_an_existing_assignment() {
 
-		driver.findElement(By.cssSelector("//*[text(),'DeleteAssignment[0]']")).click();
+		driver.findElement(By.cssSelector("//*[text(),'DeleteAssignment']")).click();
 
 	}
 
-	@Then("Deleted assignment details will be removed from Manage Assignments Page (Admin)")
+	@Then("Deleted assignment details will be removed from Manage Assignments Page Admin")
 	public void deleted_assignment_details_will_be_removed_from_manage_assignments_page_admin() {
 
 		// Deleted Assignment should be removed
-
-		int actualcount = count();
-		// program.click;
-		int expcount = count();
+		int actualcount = actions.acount();
+		Assignment.click();
+		int expcount = actions.acount();
 		Assert.assertEquals(actualcount - 1, expcount);
 	}
 
@@ -178,31 +128,24 @@ public class AssignmentAdmin  {
 	public void admin_tries_to_view_exisiting_assignment_details() {
 
 		// Admin clicks View on Manage Assignment Page
-		driver.findElement(By.id("View")).click();
+		Assignment.click();
 
 	}
 
-	@Then("All the existing assignment details will be displayed in Manage Assignments Page(Admin)")
+	@Then("All the existing assignment details will be displayed in Manage Assignments Page Admin")
 	public void all_the_existing_assignment_details_will_be_displayed_in_manage_assignments_page_admin()
 			throws IOException {
 
 		// All Existing Assignment should be displayed
-		// Existing Assignment Name should be displayed
-		boolean isElementDisplayed = driver.findElement(By.xpath("//*[text()='RestAssures']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed, "RestAssures");
 
-		// Existing Assignment Details should be displayed
-		boolean isElementDisplayed1 = driver.findElement(By.xpath("//*[text()='API']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed1, "API");
-
-		// Existing Assignment DueDate should be displayed
-		boolean isElementDisplayed2 = driver.findElement(By.xpath("//*[text()='3-30-2022']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed2, "3-30-2022");
-		takeScreenshot("ExistingAssignmentDetails");
+		int actualcount = actions.acount();
+		Assignment.click();
+		int expcount = actions.acount();
+		Assert.assertEquals(actualcount, expcount);
 
 	}
 
-	@Given("Admin is on Add tab of manage Assignments page(admin view) by clicking on Add Assignment in Manage Assignments Page (admin)")
+	@Given("Admin is on Add tab of manage Assignments page admin view by clicking on Add Assignment in Manage Assignments Page admin")
 	public void admin_is_on_add_tab_of_manage_assignments_page_admin_view_by_clicking_on_add_assignment_in_manage_assignments_page_admin() {
 
 		driver.findElement(By.id("AddProgram")).click();
@@ -225,7 +168,7 @@ public class AssignmentAdmin  {
 		new WebDriverWait(driver, Duration.ofSeconds(5)).until(
 				ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h4[contains(text(),'Calender'")));
 
-		selectDate("26", "March", "2022");
+		actions.selectDate("26", "March", "2022");
 
 		// Admin Uploading assignment File and click on submit button
 		driver.findElement(By.linkText("AssignmentFile1"))
@@ -233,30 +176,33 @@ public class AssignmentAdmin  {
 		driver.findElement(By.id("Submit")).click();
 	}
 
-	@Then("Created assignments will be displayed in Manage Assignments Page(admin) and Manage Assignment page(User View)")
+	@Then("Created assignments will be displayed in Manage Assignments Page admin and Manage Assignment page User View")
 	public void created_assignments_will_be_displayed_in_manage_assignments_page_admin_and_manage_assignment_page_user_view()
 			throws IOException {
 
 		// Admin Entered Assignment Name should be displayed
-		boolean isElementDisplayed = driver.findElement(By.xpath("//*[text()='Locators']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed, "Locators");
+		WebElement aName = driver.findElement(By.xpath("//*[text()='AssignmentName']"));
+		String name = aName.getAttribute("value");
+		Assert.assertEquals(name, "Locators");
 
-		// Admin Entered Assignment Description should be displayed
-		boolean isElementDisplayed1 = driver.findElement(By.xpath("//*[text()='Locators']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed1, "WebElement Locator");
+		// Admin Entered Assignment aDescription should be displayed
+		WebElement aDescription = driver.findElement(By.xpath("//*[text()='Adetails']"));
+		String description = aDescription.getAttribute("value");
+		Assert.assertEquals(description, "WebElement Locator");
 
 		// Admin Entered Assignment DueDate should be displayed
-		boolean isElementDisplayed2 = driver.findElement(By.xpath("//*[text()='3-24-2022']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed2, "3-26-2022");
+		WebElement aDueDate = driver.findElement(By.xpath("//*[text()='3-24-2022']"));
+		Assert.assertEquals(aDueDate, "3-26-2022");
 
 		// Admin Uploaded Assignment File should be Displayed
-		boolean isElementDisplayed3 = driver.findElement(By.xpath("//*[text()='AssignmentFile1']")).isDisplayed();
-		Assert.assertEquals(isElementDisplayed3, "AssignmentFile1");
-		takeScreenshot("CreatedAssignment");
+		WebElement aFile = driver.findElement(By.xpath("//*[text()='AssignmentFile1']"));
+		String File = aFile.getAttribute("value");
+		Assert.assertEquals(File, "AssignmentFile1");
+		actions.takeScreenshot("CreatedAssignment");
 
 	}
 
-	@Given("Admin is on Edit tab of manage Assignments page (admin view) by clicking on Add Assignment in Manage Assignments Page(admin)")
+	@Given("Admin is on Edit tab of manage Assignments page admin view by clicking on Add Assignment in Manage Assignments Page admin")
 	public void admin_is_on_edit_tab_of_manage_assignments_page_admin_view_by_clicking_on_add_assignment_in_manage_assignments_page_admin() {
 
 		// Admin clicks on the add asignment on edit tab of assignment page
@@ -283,27 +229,36 @@ public class AssignmentAdmin  {
 		driver.findElement(By.id("Submit")).click();
 	}
 
-	@Then("Updated assignment details will be displayed in Manage Assignments Page\\(admin) and Manage Assignment page\\(User View)")
+	@Then("Updated assignment details will be displayed in Manage Assignments Page admin and Manage Assignment page User View")
 	public void updated_assignment_details_will_be_displayed_in_manage_assignments_page_admin_and_manage_assignment_page_user_view()
 			throws IOException {
 
 		// added Assignment Name should be displayed edit tab of manage Assignments page
-		boolean isElementDisplayed = driver.findElement(By.xpath("//*[text()='Selenium_1']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed, "Selenium_1");
+		WebElement aName = driver.findElement(By.xpath("//*[text()='AssignmentName']"));
+		String name = aName.getAttribute("value");
+		Assert.assertEquals(name, "Selenium_1");
 
 		// Entered Assignment Details should be displayed edit tab of manage Assignments
 		// page
-		boolean isElementDisplayed1 = driver.findElement(By.xpath("//*[text()='Locators']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed1, "Locators");
+		WebElement aDescription = driver.findElement(By.xpath("//*[text()='Adetails']"));
+		String description = aDescription.getAttribute("value");
+		Assert.assertEquals(description, "Locators");
 
 		// Entered Assignment DueDate should be displayed edit tab of manage Assignments
 		// page
-		boolean isElementDisplayed2 = driver.findElement(By.xpath("//*[text()='3-24-2022']")).isDisplayed();
-		sa.assertEquals(isElementDisplayed2, "3-24-2022");
-		takeScreenshot("UpdatedAssignment_Submitted");
+		WebElement aDueDate = driver.findElement(By.xpath("//*[text()='3-24-2022']"));
+		Assert.assertEquals(aDueDate, "3-26-2022");
+
+		// Entered Assignment DueDate should be displayed edit tab of manage Assignments
+		// page
+		WebElement aFile = driver.findElement(By.xpath("//*[text()='AssignmentFile1']"));
+		String File = aFile.getAttribute("value");
+		Assert.assertEquals(File, "AssignmentFile1");
+
+		actions.takeScreenshot("UpdatedAssignment_Submitted");
 	}
 
-	@Given("Admin is on Manage Assignments Page (admin)")
+	@Given("Admin is on Manage Assignments Page admin")
 	public void admin_is_on_manage_assignments_page_admin() {
 
 		// Clicking on Manage Assignment
@@ -314,22 +269,22 @@ public class AssignmentAdmin  {
 	public void admin_clicks_on_trash_icon_after_selecting_existing_assignments() {
 
 		// clicking on Trash button on the existing assignments
-		driver.findElement(By.cssSelector("//*[text(),'DeleteAssignment[0]']")).click();
+		driver.findElement(By.cssSelector("//*[text(),'DeleteAssignment']")).click();
 
 	}
 
-	@Then("Deleted assignment will be removed from Admin View in Manage Assignments Page (admin) and Manage Assignment page (User View)")
+	@Then("Deleted assignment will be removed from Admin View in Manage Assignments Page admin and Manage Assignment page User View")
 	public void deleted_assignment_will_be_removed_from_admin_view_in_manage_assignments_page_admin_and_manage_assignment_page_user_view() {
 
 		// Deleted Assignment should be removed
 
-		int actualcount = count();
-		// program.click;
-		int expcount = count();
+		int actualcount = actions.acount();
+		Assignment.click();
+		int expcount = actions.acount();
 		Assert.assertEquals(actualcount - 1, expcount);
 	}
 
-	@Given("Admin is on Manage Submissions(Admin) page by clicking on Manage button in Manage assignments page (admin)")
+	@Given("Admin is on Manage Submissions Admin page by clicking on Manage button in Manage assignments page admin")
 	public void admin_is_on_manage_submissions_admin_page_by_clicking_on_manage_button_in_manage_assignments_page_admin() {
 
 		driver.findElement(By.id("ManageGrades")).click();
@@ -353,7 +308,7 @@ public class AssignmentAdmin  {
 		new WebDriverWait(driver, Duration.ofSeconds(5)).until(
 				ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h4[contains(text(),'Calender'")));
 
-		selectDate("27", "March", "2022");
+		actions.selectDate("27", "March", "2022");
 
 		// Adding comment in the comment box and uploading 5 assignment files
 		driver.findElement(By.id("SubComments")).sendKeys("Excellent Performance");
@@ -387,8 +342,9 @@ public class AssignmentAdmin  {
 	public void grade_details_will_be_visible_to_both_admin_and_user_view() throws IOException {
 
 		// Selected Batch Name should be displayed on manage Assignments submission page
-		boolean BatchNameElement = driver.findElement(By.xpath("//*[text()='SDET01']")).isDisplayed();
-		Assert.assertEquals(BatchNameElement, "SDET01");
+		WebElement BatchNameElement = driver.findElement(By.xpath("//*[text()='SDET01']"));
+		String bname = BatchNameElement.getAttribute("value");
+		Assert.assertEquals(bname, "SDET01");
 
 		// Selected Assignment Name should be displayed on manage Assignments submission
 		// page
@@ -397,53 +353,62 @@ public class AssignmentAdmin  {
 
 		// Selected Assignment Date should be displayed on manage Assignment submissions
 		// page
-		boolean ADateElement = driver.findElement(By.xpath("//*[text()='03-27-2022']")).isDisplayed();
-		Assert.assertEquals(ADateElement, "03-27-2022");
+		WebElement ADateElement = driver.findElement(By.xpath("//*[text()='03-27-2022']"));
+		String Adate = ADateElement.getAttribute("value");
+		Assert.assertEquals(Adate, "03-27-2022");
 
 		// Uploading assignment1 File should be displayed on manage Assignment
 		// submissions
 		// page
-		boolean assignment1File1 = driver.findElement(By.xpath("//*[text()='Assignment1']")).isDisplayed();
-		Assert.assertEquals(assignment1File1, "Assignment1");
+		WebElement assignment1File1 = driver.findElement(By.xpath("//*[text()='Assignment1']"));
+		String aF1 = assignment1File1.getAttribute("value");
+		Assert.assertEquals(aF1, "Assignment1");
 
 		// Uploading assignment2 File should be displayed on manage Assignment
 		// submissions
 		// page
-		boolean assignment1File2 = driver.findElement(By.xpath("//*[text()='Assignment2']")).isDisplayed();
-		Assert.assertEquals(assignment1File2, "Assignment2");
+		WebElement assignment1File2 = driver.findElement(By.xpath("//*[text()='Assignment1']"));
+		String aF2 = assignment1File2.getAttribute("value");
+		Assert.assertEquals(aF2, "Assignment1");
 
 		// Uploading assignment3 File should be displayed on manage Assignment
 		// submissions
 		// page
-		boolean assignment1File3 = driver.findElement(By.xpath("//*[text()='Assignment3']")).isDisplayed();
-		Assert.assertEquals(assignment1File3, "Assignment3");
+		WebElement assignment1File3 = driver.findElement(By.xpath("//*[text()='Assignment1']"));
+		String aF3 = assignment1File3.getAttribute("value");
+		Assert.assertEquals(aF3, "Assignment1");
 
 		// Uploading assignment4 File should be displayed on manage Assignment
 		// submissions
 		// page
-		boolean assignment1File4 = driver.findElement(By.xpath("//*[text()='Assignment4']")).isDisplayed();
-		Assert.assertEquals(assignment1File4, "Assignment4");
+		WebElement assignment1File4 = driver.findElement(By.xpath("//*[text()='Assignment1']"));
+		String aF4 = assignment1File4.getAttribute("value");
+		Assert.assertEquals(aF4, "Assignment1");
 
 		// Uploading assignment5 File should be displayed on manage Assignment
 		// submissions
 		// page
-		boolean assignment1File5 = driver.findElement(By.xpath("//*[text()='Assignment5']")).isDisplayed();
-		Assert.assertEquals(assignment1File5, "Assignment5");
+		WebElement assignment1File5 = driver.findElement(By.xpath("//*[text()='Assignment1']"));
+		String aF5 = assignment1File5.getAttribute("value");
+		Assert.assertEquals(aF5, "Assignment1");
 
 		// Selected Assignment GradedBy should be displayed on manage Assignment
 		// submissions page
-		boolean AGradedBy = driver.findElement(By.xpath("//*[text()='Staff']")).isDisplayed();
-		Assert.assertEquals(AGradedBy, "AGradedBy");
+		WebElement AGradedBy = driver.findElement(By.xpath("//*[text()='Staff']"));
+		String Agrby = AGradedBy.getAttribute("value");
+		Assert.assertEquals(Agrby, "AGradedBy");
 
 		// Selected Assignment Grades should be displayed on manage Assignment
 		// submissions page
-		boolean AGrade = driver.findElement(By.xpath("//*[text()='A']")).isDisplayed();
-		Assert.assertEquals(AGrade, "A");
+		WebElement AGrade = driver.findElement(By.xpath("//*[text()='A']"));
+		String grade = AGrade.getAttribute("value");
+		Assert.assertEquals(grade, "A");
 
 		// added comments should be displayed on manage Assignment submissions page
-		boolean comments = driver.findElement(By.xpath("//*[text()='Excellent Performance']")).isDisplayed();
-		Assert.assertEquals(comments, "Excellent Performance");
-		takeScreenshot("Graded_details");
+		WebElement comments = driver.findElement(By.xpath("//*[text()='Excellent Performance']"));
+		String commm = comments.getAttribute("value");
+		Assert.assertEquals(commm, "Excellent Performance");
+		actions.takeScreenshot("Graded_details");
 
 	}
 
@@ -459,9 +424,10 @@ public class AssignmentAdmin  {
 
 		// Selected Assignment Grades should be displayed on manage Assignment
 		// submissions page
-		boolean AGrade = driver.findElement(By.xpath("//*[text()='A']")).isDisplayed();
-		Assert.assertEquals(AGrade, "A");
-		takeScreenshot("GradedDetailsAdminview");
+		WebElement AGrade = driver.findElement(By.xpath("//*[text()='A']"));
+		String grade = AGrade.getAttribute("value");
+		Assert.assertEquals(grade, "A");
+		actions.takeScreenshot("GradedDetailsAdminview");
 
 	}
 }
